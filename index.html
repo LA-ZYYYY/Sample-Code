@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Sample</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h3>Financial Bookkeeping System Code</h3>
+    <pre><code>
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class FinancialBookkeepingSystem {
+    private static final ArrayList<String> transactions = new ArrayList<>();
+
+    public static void addTransaction(String name, String transactionType, double amount) {
+        String record = "Name: " + name + " | Transaction Type: " + transactionType + " | Amount: " + amount;
+        transactions.add(record);
+        System.out.println("Successfully booked!");
+    }
+
+    public static void displayTransactions() {
+        System.out.println("\nAll Financial Transactions:");
+        if (transactions.isEmpty()) {
+            System.out.println("No transactions yet.");
+        } else {
+            for (int i = 0; i < transactions.size(); i++) {
+                System.out.println((i + 1) + ". " + transactions.get(i));
+            }
+        }
+    }
+
+    public static void deleteTransaction(int index) {
+        if (index < 1 || index > transactions.size()) {
+            System.out.println("Invalid transaction number. Please try again.");
+        } else {
+            transactions.remove(index - 1);
+            System.out.println("Transaction deleted successfully!");
+        }
+    }
+
+    // Search for transactions by keyword
+    public static void searchTransactions(String keyword) {
+        System.out.println("\nSearch Results:");
+        boolean found = false;
+        for (int i = 0; i < transactions.size(); i++) {
+            if (transactions.get(i).toLowerCase().contains(keyword.toLowerCase())) {
+                System.out.println((i + 1) + ". " + transactions.get(i));
+                found = true;
+            }
+        }
+        if (!found) {
+            System.out.println("No transactions found matching the keyword.");
+        }
+    }
+
+    public static void main(String[] args) {
+        try (Scanner scanner = new Scanner(System.in)) {
+            String userName, transactionType, keyword;
+            double amount;
+            int choice, transactionIndex;
+
+            while (true) {
+                System.out.println("\n--- Financial Bookkeeping System ---");
+                System.out.println("1. Add a financial transaction");
+                System.out.println("2. View transactions");
+                System.out.println("3. Delete a transaction");
+                System.out.println("4. Search transactions");
+                System.out.println("5. Exit");
+                System.out.print("Please choose an option (1-5): ");
+
+                choice = scanner.nextInt();
+                scanner.nextLine();
+
+                switch (choice) {
+                    case 1 -> {
+                        System.out.print("Enter your name: ");
+                        userName = scanner.nextLine();
+
+                        System.out.println("\nChoose Transaction Type:");
+                        System.out.println("1. Withdraw");
+                        System.out.println("2. Deposit");
+                        System.out.print("Enter your choice (1-2): ");
+                        int typeChoice = scanner.nextInt();
+                        scanner.nextLine();
+
+                        switch (typeChoice) {
+                            case 1 -> transactionType = "Withdraw";
+                            case 2 -> transactionType = "Deposit";
+                            default -> {
+                                System.out.println("Invalid choice. Defaulting to 'Unknown Transaction'.");
+                                transactionType = "Unknown Transaction";
+                            }
+                        }
+
+                        System.out.print("Enter the amount: ");
+                        amount = scanner.nextDouble();
+                        scanner.nextLine();
+
+                        addTransaction(userName, transactionType, amount);
+                    }
+                    case 2 -> displayTransactions();
+                    case 3 -> {
+                        displayTransactions();
+                        System.out.print("Enter the transaction number to delete: ");
+                        transactionIndex = scanner.nextInt();
+                        scanner.nextLine();
+                        deleteTransaction(transactionIndex);
+                    }
+                    case 4 -> {
+                        System.out.print("Enter a keyword to search: ");
+                        keyword = scanner.nextLine();
+                        searchTransactions(keyword);
+                    }
+                    case 5 -> {
+                        System.out.println("\nExiting system. Goodbye!");
+                        return;
+                    }
+                    default -> System.out.println("Invalid choice. Please choose a valid option.");
+                }
+            }
+        }
+    }
+}
+    </code></pre>
+</body>
+</html>
